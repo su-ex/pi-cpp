@@ -3,39 +3,35 @@
 #include <gmpxx.h>
 
 int main() {
-  //~ mpz_class x("7612058254738945");
-  //~ mpz_class y("9263591128439081");
-
-  //~ std::cout << x*y << "\n"
-            //~ << x*y+1 << "\n"
-            //~ << cmp(x*y, x*y*2) << "\n"
-            //~ << cmp(x*y, x*y) << "\n"
-            //~ << cmp(x*y*2, x*y) << "\n";
-  
-  //~ mpq_class q(1, 3);
-
-  //~ std::cout << x*q << "\n"
-            //~ << x*q+1 << "\n"
-            //~ << (x*q)/2 << "\n";
-
-	mpq_class a(1);
-	mpq_class sum(0);
-	int n = 0;
-	mpq_class faku(1);
+	mpq_class t(1);
+	mpq_class sum(1103);
+	mpz_class n(1);
+	mpz_class faku(1);
+	mpz_class pote(1);
+	mpz_class inte;
+	mpq_class helper1, helper2;
+	mpq_class helper3(9801, 2);
 	
 	while (true) {
-		sum += faku * (1103 + 26390*mpz_class(n));
-		if (n % 20 == 0) {
-			mpq_class t(9801, 2);
-			t /= a;
-			t /= sum;
-			std::cout << std::setprecision(1000000000) << mpf_class(t,100000000) << std::endl;
-		}
-		n++;
-		faku *= (1-mpq_class(1, n*4)) * (1-mpq_class(1, n*2)) * (1-mpq_class(3, n*4));
-		faku /= mpz_class(99)*99*99*99;
-		//~ std::cout << faku << std::endl;
-		a = a/2 + 1/a;
+		std::cout << std::setprecision(1000000000) << mpf_class(helper3/sum,100000000) << std::endl;
+		
+		//Thread 1:
+			//Thread 1.1:
+			faku *= (4*n-3)*(4*n-2)*(4*n-1)*4;
+			faku /= n*n*n;
+			inte = (1103+26390*n++)*faku;
+			//Thread 1.2:
+			pote *= 24591257856;
+		sum += inte/pote;
+		
+		
+		//Thread 2:
+			//Thread 2.1:
+			helper1 = t*t*2 + 1;
+			//Thread 2.2:
+			helper2 = t*4;			
+		t = helper1/helper2;
+		helper3 = mpq_class(9801/2)*t;
 	}
 	
 	return 0;
